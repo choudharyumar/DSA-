@@ -15,4 +15,4 @@ function Anagram(str1, str2) {
   }
   return true;
 }
-console.log(Anagram("hello", "ello"));
+console.log(Anagram("hello", "elloh"));
