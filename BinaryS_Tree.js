@@ -70,6 +70,59 @@ class BTree {
       console.log(root);
     }
   }
+  BreadthSearch() {
+    let queue = [];
+    queue.push(this.root);
+    while (queue.length) {
+      let current = queue.shift();
+      if (current.left) {
+        queue.push(current.left);
+      }
+      if (current.right) {
+        queue.push(current.right);
+      }
+      console.log(current.value);
+    }
+  }
+  Min(root) {
+    if (!root.left) {
+      return root.value;
+    } else {
+      return this.Min(root.left);
+    }
+  }
+  Max(root) {
+    if (!root.right) {
+      return root.value;
+    } else {
+      return this.Max(root.right);
+    }
+  }
+  RemoveNode(value) {
+    this.root = this.deleteN(this.root, value);
+  }
+  deleteN(root, value) {
+    if (root === null) {
+      return null;
+    }
+
+    if (value < root.value) {
+      root.left = this.deleteN(root.left, value);
+    } else if (value > root.value) {
+      root.right = this.deleteN(root.right, value);
+    } else {
+      if (!root.left && !root.right) {
+        return null;
+      } else if (!root.left) {
+        return root.right;
+      } else if (!root.right) {
+        return root.left;
+      }
+      root.value = this.Min(root.right);
+      root.right = this.deleteN(root.right, root.value);
+    }
+    return root;
+  }
 }
 
 let tree = new BTree();
@@ -82,9 +135,13 @@ tree.MakeTree(40);
 tree.MakeTree(23);
 
 // tree.SearchT(tree.root, 44);
-
 // console.log(tree);
-console.log(tree.SearchT(tree.root, 44));
+// console.log(tree.SearchT(tree.root, 44));
 // tree.PreOrder(tree.root);
 // tree.InOrder(tree.root);
-tree.PostOrder(tree.root);
+// tree.PostOrder(tree.root);
+// tree.BreadthSearch(tree.root);
+// console.log(tree.Min(tree.root));
+// console.log(tree.Max(tree.root));
+tree.RemoveNode(5);
+tree.BreadthSearch(tree.root);
